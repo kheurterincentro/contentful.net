@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using Contentful.Core.Models.Management;
 using Contentful.Core.Extensions;
+using System.ComponentModel;
 
 namespace Contentful.Core
 {
@@ -245,6 +246,7 @@ namespace Contentful.Core
             }
             foreach (var item in json.SelectTokens("$.items[*]").OfType<JObject>())
             {
+                item.AddFirst(new JProperty("$type", typeof(T).AssemblyQualifiedName));
                 ResolveLinks(json, item, processedIds, typeof(T));
             }
 
